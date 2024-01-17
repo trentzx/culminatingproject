@@ -7,29 +7,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Here you would handle the login logic, e.g. sending a request to the server
-        console.log('Email:', email, 'Password:', password);
-
-        // For demonstration purposes, let's just log the credentials
-        // In a real application, you would send this information to a server
-        // using `fetch` or another AJAX method and handle the response.
-
-        fetch('/login', { // This URL would be where your server's login endpoint is
+        fetch('http://localhost:3000/login', { // Make sure this matches the URL of your server
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ email, password }),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
             console.log('Success:', data);
-            // Handle success, such as redirecting to another page
-            window.location.href = '/dashboard'; // Redirect to the dashboard or home page after login
+            // Redirect to the dashboard or home page after login
+            // Make sure to handle or implement the /dashboard route on your server
+            window.location.href = '/dashboard';
         })
         .catch((error) => {
             console.error('Error:', error);
-            // Handle errors, such as showing an error message to the user
+            // Here, you would typically inform the user of the login failure
+            // For example, by updating the DOM with an error message
         });
     });
 });

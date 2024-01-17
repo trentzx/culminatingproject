@@ -1,25 +1,32 @@
 const express = require('express');
+const cors = require('cors');
+const path = require('path'); // Node.js module for handling and transforming file paths
+const fs = require('fs'); // Require the filesystem module
 const app = express();
 const port = 3000;
 
-// Body parser middleware to parse JSON bodies
+const EXAMPLE_USER_EMAIL = 'test@example.com';
+const EXAMPLE_USER_PASSWORD = 'test';
+
+app.use(cors());
 app.use(express.json());
 
-// Handle POST request for user login
+// Serve static files correctly from the root directory
+app.use(express.static(path.join(__dirname))); 
+
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
-    // Here, you would typically look up the user in your database,
-    // and compare the password hash you have stored with the hash of the password provided.
-
-    // This is a mock example, where we pretend any login is successful
-    if (email && password) {
-        // Login successful
+    if (email === EXAMPLE_USER_EMAIL && password === EXAMPLE_USER_PASSWORD) {
         res.json({ message: 'Login successful', user: email });
     } else {
-        // Login failed
         res.status(401).json({ message: 'Login failed' });
     }
+});
+
+// When a GET request is made to '/dashboard', send 'main.html'
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'main.html'));
 });
 
 app.listen(port, () => {
