@@ -118,20 +118,3 @@ button {
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
     filter: invert(1);
 }
-
-.button-link {
-    display: inline-block;
-    padding: 10px 20px; /* Adjust padding as needed */
-    margin: 10px 0; /* Adjust margin as needed */
-    background-color: #ffffff; /* Use your button background color */
-    color: #000000; /* Use your button text color */
-    text-align: center;
-    text-decoration: none; /* Removes the underline from links */
-    border-radius: 5px; /* Adjust for rounded corners */
-    font-size: 1em; /* Adjust font size as needed */
-    transition: background-color 0.3s; /* Smooth background color transition on hover */
-}
-
-.button-link:hover, .button-link:active {
-    background-color: #929292; /* Darker background color on hover */
-}
