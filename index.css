@@ -1,15 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 
-@keyframes gradientAnimation {
+@keyframes colorfulAnimation {
   0% {
-      background-position: 0% 50%;
+    background-color: #FF5733;
+  }
+  25% {
+    background-color: #33FF57;
   }
   50% {
-      background-position: 100% 50%;
+    background-color: #5733FF;
+  }
+  75% {
+    background-color: #FF5733;
   }
   100% {
-      background-position: 0% 50%;
+    background-color: #5733FF;
   }
 }
 
@@ -29,9 +35,10 @@ body, html {
   align-items: center;
   background: linear-gradient(-45deg, #1abc9c, #9b59b6, #e84393, #e67e22);
   background-size: 400% 400%;
-  animation: gradientAnimation 15s ease infinite;
+  animation: colorfulAnimation 15s ease infinite;
   text-align: center;
 }
+
 
 .welcome h1 {
   font-size: 4rem;
