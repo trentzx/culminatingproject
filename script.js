@@ -4,14 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     reminderForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('email').value;
-        const reminderTime = document.getElementById('reminder-time').value;
-        const medication = document.getElementById('medication').value;
+        const newsSource = document.getElementById('news-source').value; // Get the selected news source
+
         // Create a JavaScript object to hold the data
-        
         const data = {
             email: email,
-            'medication': medication,
-            'reminder-time': reminderTime
+            'news-source': newsSource
         };
 
         // Convert the data object to JSON
@@ -33,13 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             // Handle the response from the server
-            console.log(data); // You can log the response for debugging
-            // Display a message to the user (e.g., success or error message)
+            console.log('Response received:', data); // You can log the response for debugging
+            alert('Registration successful!'); // Display a success message to the user
         })
         .catch(error => {
             console.error('Error:', error);
-            // Handle any errors, including non-JSON responses and network issues
-            // You can display a user-friendly error message here
+            alert('There was an error processing your request.'); // Display a user-friendly error message
         });
     });
 });

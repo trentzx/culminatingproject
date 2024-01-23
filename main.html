@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css"> <!-- Ensure this path is correct -->
     <title>News Reminder</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script> <!-- Added defer to ensure the script loads after the HTML -->
 </head>
 <body>
     <section>
@@ -13,8 +13,12 @@
             <h2>News Reminder</h2>
             <form id="reminder-form">
                 <div class="inputbox">
-                    <input type="email" id="email" name="email" required>
-                    <label for="email">CNN or NBC:</label>
+                    <select id="news-source" name="news-source" required>
+                        <option value="">--Select News Source--</option>
+                        <option value="cnn">CNN</option>
+                        <option value="nbc">NBC</option>
+                    </select>
+                    <label for="news-source">News Source:</label>
                 </div>
 
                 <div class="inputbox">
@@ -22,8 +26,7 @@
                     <label for="email">Email:</label>
                 </div>
 
-
-                <button type="submit">Search</button>
+                <button type="submit">Register</button>
             </form>
         </div>
     </section>
