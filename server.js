@@ -34,10 +34,29 @@ app.get('/', (req, res) => {
     res.send(index)
 });
 
+app.get('/main.html', (req, res) => {
+  res.set('Content-Type', 'text/html');
+  res.send(main);
+})
+
 app.get('/main.css', (req, res) => {
     res.set('Content-Type', 'text/css')
     res.send(styleCss)
 });
+
+app.get('/script.js', (req, res) => {
+  fs.readFile('script.js', 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading script.js:', err);
+      res.status(404).send('Not found');
+    } else {
+      res.set('Content-Type', 'text/javascript');
+      res.send(data);
+    }
+  });
+});
+
+
 
 // ... (Keep your existing app.get routes for script.js and other files)
 
