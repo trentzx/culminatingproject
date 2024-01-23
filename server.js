@@ -1,55 +1,89 @@
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const admin = require('firebase-admin');
 const app = express();
-const port = 3000;
+const fs = require('fs');
+const nodemailer = require('nodemailer');
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyB_ObDf-DYF6ZifXy3IDY-HykyYn-Hzhk4",
-    authDomain: "culminatingproject-tej4m.firebaseapp.com",
-    projectId: "culminatingproject-tej4m",
-    storageBucket: "culminatingproject-tej4m.appspot.com",
-    messagingSenderId: "13739041714",
-    appId: "1:13739041714:web:a71ea4c0e184156afb3aab",
-    measurementId: "G-KE68KQXQT6"
-};
-
-// Initialize Firebase Admin SDK
-// Note: You need to replace 'path/to/your/service-account-file.json' with the path to your Firebase service account file
-var serviceAccount = require('culminatingproject/firebase.json');
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    // If you are using any Firebase services like Firestore or Firebase Storage, add their configurations here
-});
-
-app.use(cors());
+// Middleware to parse JSON and URL-encoded form data
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+app.use(express.urlencoded({ extended: true }));
 
-// Updated login endpoint using Firebase Authentication
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        const userRecord = await admin.auth().getUserByEmail(email);
-        // Firebase Admin SDK doesn't verify passwords. Handle this on the client side or use a custom token approach
-        if (userRecord.email === email) {
-            res.json({ message: 'Login successful', user: email });
-        } else {
-            res.status(401).json({ message: 'Login failed' });
-        }
-    } catch (error) {
-        res.status(401).json({ message: 'Login failed', error: error.message });
+// Create a nodemailer transporter (configure with your email service)
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'trents.medication.reminder@gmail.com',
+        pass: 'sgbozpqnjhidxkbc' // Generate an App Password for security
     }
 });
 
-app.get('/dashboard', (req, res) => {
-    res.sendFile(path.join(__dirname, 'main.html'));
+// Read HTML and CSS files
+
+var index = fs.readFileSync('index.html');
+var main = fs.readFileSync('main.html');
+var script = fs.readFileSync('script.js');
+var indexCss = fs.readFileSync('index.css');
+var styleCss = fs.readFileSync('style.css');
+
+
+// Define routes for serving HTML and CSS files
+
+
+app.get('/', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(index)
+  })
+
+  app.get('/main.html', (req, res) => {
+    res.set('Content-Type', 'text/html')
+    res.send(main)
+  })
+
+  app.get('/script.js', (req, res) => {
+    res.set('Content-Type', 'text/javascript')
+    res.send(script)
+  })
+
+  app.get('/index.css', (req, res) => {
+    res.set('Content-Type', 'text/css')
+    res.send(indexCss)
+  })
+
+  app.get('/style.css', (req, res) => {
+    res.set('Content-Type', 'text/css')
+    res.send(styleCss)
+  })
+
+// Define a route to handle form submissions
+app.post('/sendReminder', (req, res) => {
+  const email = req.body.email;
+  const medicationName = req.body.medication;
+  const reminderTime = new Date(req.body['reminder-time']);
+
+  // Schedule sending of email reminder
+    setTimeout(() => {
+        const mailOptions = {
+            from: 'trents.medication.reminder@gmail.com',
+            to: email,
+            subject: 'News Reminder',
+            text: `This is the most recent news letter: ${JSON.stringify(medicationName)}`
+          };
+console.log(mailOptions)
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+                res.status(500).json({ error: 'Error sending email' }); // Respond with JSON error
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.json({ message: 'Reminder email sent successfully!' }); // Respond with JSON success message
+            }
+        });
+    }, reminderTime - Date.now());
+
+    res.send("");
 });
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+
+// Start the server
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
 });

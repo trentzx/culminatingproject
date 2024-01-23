@@ -1,12 +1,11 @@
-# culminatingproject
 
-creating json file: 
+tut on how to use, 
 
-Save this code to a file named server.js.
-Open a terminal or command prompt.
-Navigate to the directory where server.js is saved.
-Run the command npm init -y to create a package.json file.
-Install Express using npm install express.
-Start the server using node server.js.
+make sure node.js and nodemailer are installed
 
-NOTE :  still need to install node.js
+go to cmd and go to the directory of the project
+
+the run, "node server.js"
+
+then go to your browser and type, "http://127.0.0.1:3000"
+
