@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const jsonData = JSON.stringify(data);
 
         // Send the JSON data to the server using fetch
-        fetch('/sendReminder', {
+        fetch('http://localhost:3000/sendReminder', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

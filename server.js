@@ -1,9 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const fs = require('fs');
 const nodemailer = require('nodemailer');
 const axios = require('axios');
 const crypto = require('crypto');
+
+app.use(cors());
 
 // Middleware to parse JSON and URL-encoded form data
 app.use(express.json());
